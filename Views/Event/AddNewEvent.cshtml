@@ -1,0 +1,208 @@
+﻿@model MusicConcert.Models.EventViewModel
+
+@{
+    ViewData["Title"] = "CreateEvent";
+}
+
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
+
+
+<div class="container">
+    <h1 class="display-4">Create Event  </h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddNewEvent" id="myform">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="title" class="control-label"></label>
+                    <input asp-for="title" class="form-control" required />
+                    <span asp-validation-for="title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="date" class="control-label"></label>
+                    <input asp-for="date" class="form-control" required />
+                    <span asp-validation-for="date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="startTime" class="control-label"></label>
+                    <input asp-for="startTime" class="form-control" type="time" required />
+                    <span asp-validation-for="startTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="location" class="control-label"></label>
+                    <input asp-for="location" class="form-control" required />
+                    <span asp-validation-for="location" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="description" class="control-label"></label>
+                    <input asp-for="description" class="form-control" />
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="duration" class="control-label"></label>
+                    <input asp-for="duration" class="form-control" />
+                    <span asp-validation-for="duration" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="organiser" class="control-label"></label>
+                    @*<input asp-for="organiser" class="form-control" />*@
+                    <input asp-for="organiser" class="form-control" value="@User.Identity.Name" readonly />
+                    <span asp-validation-for="organiser" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label asp-for="eventType" class="control-label"></label>&nbsp;
+                    <input type="radio" name="eventType" id="Public" value="Public" checked />&nbsp;Public&nbsp;
+                    <input type="radio" name="eventType" id="Private" value="Private" />&nbsp;Private&nbsp;<br />
+                    <span asp-validation-for="eventType" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="form-group mt-2">
+                    <label asp-for="otherDetails" class="control-label"></label>
+                    <input asp-for="otherDetails" class="form-control" />
+                    <span asp-validation-for="otherDetails" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label asp-for="invitees" class="control-label"></label>
+                    <input asp-for="invitees" class="form-control" />
+                    <span asp-validation-for="invitees" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-2">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            @if (ViewBag.isSuccess == true)
+            {
+                <div class="alert alert-success alert-dismissible fade show ml-3" role="alert">
+                    <strong>Event Created!</strong> New Event has been Created.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+@*<script src="~/js/AddNewEventFormValidate.js"></script>*@
+<script>
+    //alert("in js");
+    document.getElementById("myform").addEventListener("submit", function (event) {
+
+        if (!validate()) {
+            event.preventDefault();
+        }
+
+    });
+    function validate() {
+        //  alert("Hello");
+        var isIncorrectInput = false;
+
+        var title = document.getElementById("title").value.trim();
+        var date = document.getElementById("date").value;
+        var startTime = document.getElementById("startTime").value;
+        var venue = document.getElementById("location").value
+        var description = document.getElementById("description").value;
+        var otherDetails = document.getElementById("otherDetails").value;
+        var duration = document.getElementById("duration").value;
+        var invitees = document.getElementById("invitees").value;
+        // const eventType = document.querySelector('input[name="eventType"]:checked').value;
+        var eventOf = '';
+
+        var namePattern = /^([^0-9]*)$/;
+        if (!namePattern.test(title) || title.length <= 1) {
+            alert("Incorrect Title Format");
+            //isIncorrectInput = true;
+            return false;
+        }
+
+        var venuePattern = /^[a-zA-Z0-9\s.,'-]+$/;
+        if (!venuePattern.test(venue)) {
+            alert("Incorrect Venue format");
+            //isIncorrectInput = true;
+            return false;
+        }
+
+
+        if (description !== "") {
+            // alert("desc is not empty");
+            if (description.length < 10) {
+                alert("Description should contain min 50 chars");
+                //isIncorrectInput = true;
+                return false;
+
+            }
+        }
+
+        var currentDate = new Date();
+        var inputDate = new Date(date);
+        if (inputDate < currentDate) {
+            alert("Event can't be created in Past date.");
+            return false;
+        }
+
+       // alert(startTime);
+        if (inputDate == currentDate) {
+            var currentTime = new Date();
+            var inputTime = new Date();
+            var timeString = startTime;
+            var timeComponents = timeString.split(":");
+            inputTime.setHours(parseInt(timeComponents[0], 10));
+            inputTime.setMinutes(parseInt(timeComponents[1], 10));
+
+            if (inputTime < currentTime) {
+                alert("This time is in past");
+                return false;
+            }
+        }
+
+
+
+        // alert(otherDetails);
+        if (otherDetails !== "") {
+            if (otherDetails.length < 10) {
+                alert("Other Details should contain min 500 chars");
+                //isIncorrectInput = true;
+                return false;
+
+            }
+        }
+
+
+        if (duration !== "") {
+            var durationPattern = /^\d+$/;
+            if (!durationPattern.test(duration)) {
+                alert("Duration Should contain only integers");
+                //isIncorrectInput = true;
+                return false;
+            }
+            if (parseInt(duration) > 4) {
+                alert("Duration should be maximum 4 hrs")
+                return false;
+            }
+
+        }
+
+
+        if (invitees !== "") {
+            var inviteesPattern = /^[\w.-]+@@[a-zA-Z_-]+?\.[a-zA-Z]{2,3}(?:,[\w.-]+@@[a-zA-Z_-]+?\.[a-zA-Z]{2,3})*$/;
+            if (!inviteesPattern.test(invitees)) {
+                alert("Invitees format is incorrect");
+                //isIncorrectInput = true;
+                return false;
+            }
+        }
+
+        return true;
+    }
+</script>

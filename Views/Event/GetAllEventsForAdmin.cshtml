@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "GetAllEventsForAdmin";
+}
+
+
+<div class="container">
+    <h1 class="display-4">All Events</h1><hr />
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="display-4">Past Events</h3><hr />
+            @foreach (var evnt in Model)
+            {
+                if (evnt.date < DateTime.Now)  //past events
+                {
+                    <div class="card mb-2" style="width: 23rem;">
+                        <img src="~/images/img1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text"><b>@evnt.title</b></p>
+                            <br />
+                            <p class="card-text"><i>Location:</i> @evnt.location</p>
+
+                            <p class="card-text"><i>Date:</i> @evnt.date.ToString("dd-MM-yyyy")</p>
+                            <p class="card-text"><i>Start Time:</i> @evnt.startTime.ToString("hh:mm:ss")</p>
+
+                            <a asp-controller="Event" asp-action="GetEvent" asp-route-id="@evnt.Id">Show Details</a>
+
+
+
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+
+        <div class="col-md-6">
+            <h3 class="display-4">Future Events</h3><hr />
+
+            @foreach (var evnt in Model)
+            {
+                if (evnt.date > DateTime.Now)  //future events
+                {
+                    <div class="card mb-2" style="width: 23rem;">
+                        <img src="~/images/img1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text"><b>@evnt.title</b></p>
+                            <br />
+                            <p class="card-text"><i>Location:</i> @evnt.location</p>
+
+                            <p class="card-text"><i>Date:</i> @evnt.date.ToString("dd-MM-yyyy")</p>
+                            <p class="card-text"><i>Start Time:</i> @evnt.startTime.ToString("hh:mm:ss")</p>
+
+                            <a asp-controller="Event" asp-action="GetEvent" asp-route-id="@evnt.Id">Show Details</a>
+
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+
+    </div>
+
+</div>
+

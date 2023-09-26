@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewData["Title"] = "GetEvent";
+}
+
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
+@inject MusicConcert.Repository.IEventRepository _eventRepository
+
+
+<div class="container">
+    <h1 class="display-4">Event Details</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <img src="~/images/music-plyaing.jpg" />
+        </div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>@Model.title</h1>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <i><span class="label label-primary">By: </span></i>
+                    <i><span class="label label-primary">@Model.organiser</span></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <i><span class="label label-primary">Date: </span></i>
+                    <i><span class="label label-primary">@Model.date.ToString("dd-MM-yyyy")</span></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <i><span class="label label-primary">Time: </span></i>
+                    <i><span class="label label-primary">@Model.startTime.ToString("hh:mm:ss")</span></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <i><span class="label label-primary">Location: </span></i>
+                    <i><span class="label label-primary">@Model.location</span></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <i><span class="label label-primary">Duration: </span></i>
+                    <i><span class="label label-primary">@Model.duration hrs</span></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <i><span class="label label-primary">Total Invitees: </span></i>
+                    <i><span class="label label-primary">@await _eventRepository.InviteesCountOfAnEvent(Model.Id)</span></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <i><span class="label label-primary">Other Details: </span></i>
+                    <i><span class="label label-primary">@Model.otherDetails  </span></i>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <i><span>Description: </span></i><br />
+                    <span>@Model.description</span>
+                </div>
+            </div>
+
+            @*Past Events Can't be edited*@
+            @if (Model.date > DateTime.Now)
+            {
+                if (User.Identity.Name == Model.organiser || User.Identity.Name == "myadmin@bookevents.com")
+                {
+                    <a class="btn btn-warning mt-4" asp-controller="Event" asp-action="GetEventForUpdate" asp-route-id="@Model.Id">Update Event</a>
+                }
+                else
+                {
+                    <a class="btn btn-warning mt-4 disabled" asp-controller="Event" asp-action="GetEventForUpdate" asp-route-id="@Model.Id">Update Event</a>
+                }
+            }
+        </div>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" action="@Url.Action("AddComment","Event", new { id = Model.Id })">
+                <textarea class="form-control" rows="3" name="comment" id="commentInput" placeholder="Comments Here..."></textarea>
+                <button class="btn btn-primary mt-3" type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="col-md-6 overflow-auto" style="height:200px;">
+            <h4 style="position:center"><b>Past Comments</b></h4>
+            @foreach (var item in await _eventRepository.GetComments(Model.Id))
+            {
+                <h4 class="display-6">@item.comment</h4>
+                <hr />
+               
+
+            }
+        </div>
+    </div>
+
+   
+
+
+
+
+</div>
+
+
+
+
+@*<h3>@Model.typeOfEvent</h3>*@
+

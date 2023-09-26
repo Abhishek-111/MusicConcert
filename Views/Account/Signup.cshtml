@@ -1,0 +1,49 @@
+﻿
+@model MusicConcert.Models.SignUpUserModel
+
+@{
+    ViewData["Title"] = "Signup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <h4 class="display-4">Register</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Signup">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CnfPassword" class="control-label"></label>
+                    <input asp-for="CnfPassword" class="form-control" />
+                    <span asp-validation-for="CnfPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <input type="submit" value="Register" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+       <span>Click <a asp-action="Login" asp-controller="Account">Here</a> to Login</span> 
+    </div>
+
+</div>
+
+

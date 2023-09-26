@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
+
+@if (_signInManager.IsSignedIn(User))
+{
+
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Event" asp-action="AddNewEvent">Create Event</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Event" asp-action="EventInvitedTo">Event Invited To</a>
+    </li>
+
+
+    <li class="nav-item">
+        <a class="nav-link" asp-action="GetEventByOraganiserName" asp-controller="Event">My Events</a>
+    </li>
+
+    @if (User.Identity.Name != "myadmin@musicevents.com")
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="#"><b>User:   @User.Identity.Name</b></a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="#"><b>User: Admin</b></a>
+        </li>
+    }
+
+
+    @if (@User.Identity.Name == "myadmin@musicevents.com")
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Event" asp-action="GetAllEventsForAdmin"><b>All Events</b></a>
+        </li>
+    }
+
+    <li class="nav-item">
+        <a class="nav-link" style="color:red;font-weight:bold;" asp-action="Logout" asp-controller="Account">Logout</a>
+    </li>
+
+    @*<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                <b>Hello</b>  @User.Identity.Name
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-controller="Event" asp-action="AddNewEvent">Create Event</a>
+                <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a>
+                <a class="dropdown-item" href="#">Event Invited To</a>
+            </div>
+
+        </li>*@
+}
+
+else
+{
+    <li class="nav-item">
+        <a class="btn btn-outline-primary" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Login</a>
+        <a class="btn btn-primary" asp-controller="Account" asp-action="Signup">Register</a>
+    </li>
+
+}
+
+
+
+
