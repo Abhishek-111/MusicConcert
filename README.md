@@ -19,5 +19,7 @@ SAMPLE SCREENSORTS
 1. User Registration
    <img width="954" alt="Screenshot 2023-09-25 115505" src="https://github.com/Abhishek-111/MusicConcert/assets/71956692/d096bcef-26c4-462b-b62a-fa9709bf66b3">
 
+   <img width="954" alt="Screenshot 2023-09-25 115505" src="https://github.com/Abhishek-111/MusicConcert/assets/71956692/202023-09-25%20115556">
+
 2. User Login
-    file:///media/abhishek/Summer/DotNet/MusicConcertApp/MusicConcert/Sample%20ScreenSorts/Screenshot%202023-09-25%20115556.png
+ 
