@@ -1,0 +1,24 @@
+﻿body {
+    
+}
+
+.logo{
+    height:150px;
+    width:150px;
+}
+
+html{
+    position:relative;
+    min-height:100%;
+}
+body{
+    margin-bottom:60px;
+}
+navbar{
+    background-color:lightgrey;
+}
+#footer {
+    background-color: lightgrey;
+    color: white;
+    font-weight: bold;
+}
