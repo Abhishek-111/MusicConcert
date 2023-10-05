@@ -2,6 +2,8 @@
 + Music Concert is a fully featured web application with all the best practices like login, signup, admin-roles, 
   Users first need to register to the application, after that he can login the application using his valid 
   credentials.
+  TECHNOLOGIES USED :-
+  C#, ASP.NET MVC, SQL SERVER, HTML, CSS, JavaScript, Bootstrap
   FUNCTIONAL REQUIREMENTS :-
 + Two types of users can interact with the application - Admin User and Normal User
 + The user can add a new MusicEvent by filling up the form, he can also invite other registered user
